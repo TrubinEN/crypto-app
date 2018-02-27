@@ -43,6 +43,9 @@ const CointInputFieldRemainder = styled.span`
 class Coins extends Component {
   render() {
     const { isLoading, coins } = this.props;
+    const usd = coins ? coins.usd : 0;
+    const btc = coins ? coins.btc : 0;
+    const eth = coins ? coins.eth : 0;
 
     return (
       <Fragment>
@@ -50,10 +53,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>
-                  {Math.trunc(coins.usd)}
-                </CointInputFieldNumber>.<CointInputFieldRemainder>
-                  {coins.usd - Math.floor(coins.usd)}
+                <CointInputFieldNumber>{Math.trunc(usd)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                >
+                  {Number(((usd - Math.trunc(usd)) * 1000000000).toFixed(10))}
                 </CointInputFieldRemainder>
               </Fragment>
             )}
@@ -65,10 +67,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>
-                  {Math.trunc(coins.btc)}
-                </CointInputFieldNumber>.<CointInputFieldRemainder>
-                  {coins.btc - Math.floor(coins.btc)}
+                <CointInputFieldNumber>{Math.trunc(btc)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                >
+                  {Number(((btc - Math.trunc(btc)) * 1000000000).toFixed(10))}
                 </CointInputFieldRemainder>
               </Fragment>
             )}
@@ -80,10 +81,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>
-                  {Math.trunc(coins.eth)}
-                </CointInputFieldNumber>.<CointInputFieldRemainder>
-                  {coins.eth - Math.floor(coins.eth)}
+                <CointInputFieldNumber>{Math.trunc(eth)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                >
+                  {Number(((eth - Math.trunc(eth)) * 1000000000).toFixed(10))}
                 </CointInputFieldRemainder>
               </Fragment>
             )}

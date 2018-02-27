@@ -61,7 +61,6 @@ export class ProfilePage extends Component {
 
   render() {
     const { currencyUrl, currency, selectOffset } = this.props;
-    //const { user } = this.state;
 
     return (
       <div>

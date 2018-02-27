@@ -77,8 +77,6 @@ class HeaderPage extends Component {
     } = this.props;
     const email = user.info ? user.info.email : "";
 
-    //console.log();
-
     return (
       <Header>
         <HeaderContent>
