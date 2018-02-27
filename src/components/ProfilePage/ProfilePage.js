@@ -50,7 +50,7 @@ export class ProfilePage extends Component {
   componentWillReceiveProps(newProps) {
     const { currencyUrl, currency } = this.props;
     if (currency.selected !== currencyUrl) {
-      currencyUrl === "btn" ? selectBtc() : selectEth();
+      currencyUrl === "btn" ? this.props.selectBtc() : this.props.selectEth();
     }
   }
 

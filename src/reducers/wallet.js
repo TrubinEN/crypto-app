@@ -11,7 +11,7 @@ import {
   buyCurrencySuccess,
   buyCurrencyFailure
 } from "../actions/currency";
-
+ 
 const defaultState = {
   coins: null,
   isLoading: false,

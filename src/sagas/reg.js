@@ -4,6 +4,7 @@ import {
   registrationSuccess,
   registrationFailure
 } from "../actions/reg";
+import { loginSuccess } from "../actions/auth";
 import { registration, setTokenApi } from "../lib/api";
 import { setTokenToLocalStorage } from "../localStorage";
 
@@ -21,6 +22,7 @@ export function* fetchRegistrationSaga(action) {
       yield put(registrationSuccess());
       yield call(setTokenApi, token);
       yield call(setTokenToLocalStorage, token);
+      yield put(loginSuccess());
     } else {
       let errorMessage = {
         data: {

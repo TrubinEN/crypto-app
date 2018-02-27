@@ -6,7 +6,7 @@ import {
 } from "../actions/reg";
 
 const defaultState = {
-  registationError: null
+  registationError: null 
 };
 
 export const registration = handleActions(

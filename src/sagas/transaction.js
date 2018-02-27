@@ -9,8 +9,8 @@ import { fetchWalletRequest } from "../actions/wallet";
 import { getUserTransactions } from "../lib/api";
 
 export function* fetchTransactionsSaga(action) {
-  yield put(transactionsRequest());
   try {
+    yield put(transactionsRequest());
     const response = yield call(getUserTransactions);
     yield put(transactionsSuccess(response.data.result));
   } catch (error) {
