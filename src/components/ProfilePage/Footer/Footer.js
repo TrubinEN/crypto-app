@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import iconlogoSwg from "../../static/media/img/logoProfile.svg";
+import iconlogoSwg from "../../../static/media/img/logoProfile.svg";
 
 const Section = styled.footer`
   align-items: center;

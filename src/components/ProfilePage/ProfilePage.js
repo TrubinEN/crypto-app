@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Graph from "./Graph";
 import Coins from "./Coins";
 import Transactions from "./Transactions";
-import TradeOperations from "./TradeOperations";
+import TradeOperations from "./Trade";
 import { selectBtc, selectEth, selectOffset } from "../../actions/currency";
 import {
   getBtc,
@@ -47,7 +47,7 @@ export class ProfilePage extends Component {
     btc: [],
     eth: []
   };
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps() {
     const { currencyUrl, currency } = this.props;
     if (currency.selected !== currencyUrl) {
       currencyUrl === "btn" ? this.props.selectBtc() : this.props.selectEth();

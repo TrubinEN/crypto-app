@@ -8,7 +8,7 @@ import { sellCurrencySuccess, buyCurrencySuccess } from "../actions/currency";
 import { fetchWalletRequest } from "../actions/wallet";
 import { getUserTransactions } from "../lib/api";
 
-export function* fetchTransactionsSaga(action) {
+export function* fetchTransactionsSaga() {
   try {
     yield put(transactionsRequest());
     const response = yield call(getUserTransactions);

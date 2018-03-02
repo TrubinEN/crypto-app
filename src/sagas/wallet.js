@@ -12,9 +12,7 @@ export function* fetchUserWalletSaga(action) {
    yield put(fetchWalletRequest());
     const response = yield call(getWallet);
     yield put(fetchWalletSuccess(response.data.result));
-    //console.log('wallet saga SUCCESS');
   } catch (error) {
-    //console.log('wallet saga error');
     yield put(fetchWalletFailure(error));
   }
 }

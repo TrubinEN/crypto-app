@@ -7,7 +7,7 @@ import {
   getTransactionsRecords,
   getTransactionsIsLoading,
   getTransactionsError
-} from "../../reducers/transactions";
+} from "../../../reducers/transactions";
 
 const Table = styled.table`
   margin: 40px 0;
@@ -34,6 +34,12 @@ const TableTD = styled.td`
 `;
 
 class Transactions extends Component {
+  static defaultProps = {
+    currencyUrl: "btc",
+    records: [],
+    isLoading: false
+  };
+
   render() {
     const { currencyUrl, records, isLoading } = this.props;
 

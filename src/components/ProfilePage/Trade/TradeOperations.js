@@ -6,13 +6,20 @@ import {
   getCurrentCurrencyPurchase,
   getCurrentCurrencySell,
   getSelectedCurrency
-} from "../../reducers/currency";
+} from "../../../reducers/currency";
 import {
   buyCurrencyRequest,
   sellCurrencyRequest
-} from "../../actions/currency";
+} from "../../../actions/currency";
 import styled from "styled-components";
-import { getWalletError } from "../../reducers/wallet";
+import { getWalletError } from "../../../reducers/wallet";
+import {
+  getNumber,
+  INPUT_FIAT,
+  INPUT_PURCHASE,
+  INPUT_SELL,
+  CURRENT_INPUT
+} from "./helper";
 
 const enhance = compose(
   withRouter,
@@ -103,10 +110,10 @@ const ButtonPurchase = Button.extend`
 
 class TradeOperations extends PureComponent {
   state = {
-    inputFiat: 1,
-    inputSell: this.props.sell,
-    inputPurchase: this.props.purchase,
-    currentInput: "inputFiat"
+    [INPUT_FIAT]: 1,
+    [INPUT_SELL]: this.props.sell,
+    [INPUT_PURCHASE]: this.props.purchase,
+    [CURRENT_INPUT]: INPUT_FIAT
   };
 
   componentWillReceiveProps(nextProps) {
@@ -125,14 +132,14 @@ class TradeOperations extends PureComponent {
   };
 
   handleBlur = () => {
-    this.setState({ currentInput: "inputFiat" });
+    this.setState({ [CURRENT_INPUT]: INPUT_FIAT });
   };
 
   handleFocus = event => {
-    this.setState({ currentInput: event.target.name });
+    this.setState({ [CURRENT_INPUT]: event.target.name });
   };
 
-  handleSell = event => {
+  handleSell = () => {
     const { selectedCurrency } = this.props;
     const { inputFiat } = this.state;
     this.props.sellCurrencyRequest({ selectedCurrency, value: inputFiat });
@@ -146,35 +153,35 @@ class TradeOperations extends PureComponent {
 
   changeInputs(name, sell, purchase) {
     switch (name) {
-      case "inputFiat": {
+      case INPUT_FIAT: {
         this.setState(({ inputFiat }) => {
-          const parsed = isNaN(inputFiat) ? 0 : parseFloat(inputFiat);
+          const parsed = getNumber(inputFiat);
           return {
-            inputSell: parsed * sell,
-            inputPurchase: parsed * purchase
+            [INPUT_SELL]: parsed * sell,
+            [INPUT_PURCHASE]: parsed * purchase
           };
         });
         break;
       }
-      case "inputSell":
+      case INPUT_SELL:
         this.setState(({ inputSell }) => {
-          const parsedSell = isNaN(inputSell) ? 0 : parseFloat(inputSell);
+          const parsedSell = getNumber(inputSell);
           const nextFiat = parsedSell / sell;
           return {
-            inputFiat: nextFiat,
-            inputPurchase: nextFiat * purchase
+            [INPUT_FIAT]: nextFiat,
+            [INPUT_PURCHASE]: nextFiat * purchase
           };
         });
         break;
-      case "inputPurchase":
+      case INPUT_PURCHASE:
         this.setState(({ inputPurchase }) => {
           const parsedPurchase = isNaN(inputPurchase)
             ? 0
             : parseFloat(inputPurchase);
           const nextFiat = parsedPurchase / purchase;
           return {
-            inputFiat: nextFiat,
-            inputSell: nextFiat * sell
+            [INPUT_FIAT]: nextFiat,
+            [INPUT_SELL]: nextFiat * sell
           };
         });
         break;
@@ -185,7 +192,10 @@ class TradeOperations extends PureComponent {
 
   render() {
     const { error, selectedCurrency } = this.props;
-    const { inputFiat, inputSell, inputPurchase } = this.state;
+    let { inputFiat, inputSell, inputPurchase } = this.state;
+    inputFiat = getNumber(inputFiat);
+    inputSell = getNumber(inputSell);
+    inputPurchase = getNumber(inputPurchase);
 
     return (
       <Container>
@@ -195,8 +205,8 @@ class TradeOperations extends PureComponent {
             onChange={this.handleChange}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-            name="inputFiat"
-            value={isNaN(inputFiat) ? 0 : inputFiat}
+            name={INPUT_FIAT}
+            value={inputFiat}
           />
           <Currency>{selectedCurrency.toUpperCase()}</Currency>
         </InputWrapper>
@@ -206,8 +216,8 @@ class TradeOperations extends PureComponent {
               onChange={this.handleChange}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
-              name="inputPurchase"
-              value={isNaN(inputPurchase) ? 0 : inputPurchase}
+              name={INPUT_PURCHASE}
+              value={inputPurchase}
             />
             <Currency>$</Currency>
           </InputWrapper>
@@ -219,14 +229,14 @@ class TradeOperations extends PureComponent {
               onChange={this.handleChange}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
-              name="inputSell"
-              value={isNaN(inputSell) ? 0 : inputSell}
+              name={INPUT_SELL}
+              value={inputSell}
             />
             <Currency>$</Currency>
           </InputWrapper>
           <ButtonPurchase onClick={this.handleBuy}>Купить</ButtonPurchase>
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="error-text">{error}</p>}
       </Container>
     );
   }

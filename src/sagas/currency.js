@@ -34,7 +34,6 @@ import {
   fetchWalletFailure
 } from "../actions/wallet";
 import { changeLocation } from "../actions/location";
-//import {transactionsRequest} from "../actions/transaction";
 
 function* fetchBtcFlow(action) {
   try {
@@ -104,7 +103,6 @@ function* fetchBuySaga(action) {
 
     yield put(buyCurrencySuccess(response.data));
   } catch (error) {
-    console.log("buy Error: ", error);
     yield put(buyCurrencyFailure(error));
   }
 }

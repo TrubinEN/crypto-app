@@ -5,7 +5,7 @@ import {
   getWalletCoins,
   getWalletIsLoading,
   getWalletError
-} from "../../reducers/wallet";
+} from "../../../reducers/wallet";
 
 const CointInput = styled.div`
   display: flex;
@@ -41,11 +41,37 @@ const CointInputFieldRemainder = styled.span`
 `;
 
 class Coins extends Component {
+  static defaultProps = {
+    isLoading: false,
+    coins: {}
+  };
+
+  getFraction(number) {
+    return Number(((number - this.getWhole(number)) * 1000000000).toFixed(10));
+  }
+  getWhole(number) {
+    return Math.trunc(number);
+  }
+  getDefaultCoins() {
+    return { whole: 0, fraction: 0 };
+  }
   render() {
     const { isLoading, coins } = this.props;
-    const usd = coins ? coins.usd : 0;
-    const btc = coins ? coins.btc : 0;
-    const eth = coins ? coins.eth : 0;
+    let usd = this.getDefaultCoins(),
+      btc = this.getDefaultCoins(),
+      eth = this.getDefaultCoins();
+
+    if (coins) {
+      // usd
+      usd.whole = this.getWhole(coins.usd);
+      usd.fraction = this.getFraction(coins.usd);
+      // btc
+      btc.whole = this.getWhole(coins.btc);
+      btc.fraction = this.getFraction(coins.btc);
+      // eth
+      eth.whole = this.getWhole(coins.eth);
+      eth.fraction = this.getFraction(coins.eth);
+    }
 
     return (
       <Fragment>
@@ -53,9 +79,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>{Math.trunc(usd)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                <CointInputFieldNumber>{usd.whole}</CointInputFieldNumber>.<CointInputFieldRemainder
                 >
-                  {Number(((usd - Math.trunc(usd)) * 1000000000).toFixed(10))}
+                  {usd.fraction}
                 </CointInputFieldRemainder>
               </Fragment>
             )}
@@ -67,9 +93,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>{Math.trunc(btc)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                <CointInputFieldNumber>{btc.whole}</CointInputFieldNumber>.<CointInputFieldRemainder
                 >
-                  {Number(((btc - Math.trunc(btc)) * 1000000000).toFixed(10))}
+                  {btc.fraction}
                 </CointInputFieldRemainder>
               </Fragment>
             )}
@@ -81,9 +107,9 @@ class Coins extends Component {
           <CointInputField>
             {!isLoading && (
               <Fragment>
-                <CointInputFieldNumber>{Math.trunc(eth)}</CointInputFieldNumber>.<CointInputFieldRemainder
+                <CointInputFieldNumber>{eth.whole}</CointInputFieldNumber>.<CointInputFieldRemainder
                 >
-                  {Number(((eth - Math.trunc(eth)) * 1000000000).toFixed(10))}
+                  {eth.fraction}
                 </CointInputFieldRemainder>
               </Fragment>
             )}

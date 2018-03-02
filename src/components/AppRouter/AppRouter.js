@@ -7,6 +7,10 @@ import { getIsAuthorized } from "../../reducers/auth";
 import "../../static/css/normalize.css";
 
 export class AppRouter extends Component {
+  static defaultProps = {
+    isAuthorized: false,
+  };
+  
   render() {
     const { isAuthorized } = this.props;
 

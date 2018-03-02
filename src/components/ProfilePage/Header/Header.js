@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import iconlogoSwg from "../../static/media/img/logoProfile.svg";
-import { loginOut } from "../../actions/auth";
+import iconlogoSwg from "../../../static/media/img/logoProfile.svg";
+import { loginOut } from "../../../actions/auth";
 import {
   getUserIsLoading,
   getUserError,
   getUserInfo
-} from "../../reducers/user";
+} from "../../../reducers/user";
 import {
   getBtc,
   getEth,
   getCurrEth,
   getCurrBtc,
   getSelected
-} from "../../reducers/currency";
-import { selectBtc, selectEth } from "../../actions/currency";
+} from "../../../reducers/currency";
+import { selectBtc, selectEth } from "../../../actions/currency";
 
 const Header = styled.header`
   display: flex;
@@ -110,11 +110,7 @@ class HeaderPage extends Component {
           <span>
             {email}
             {"  "}
-            <a
-              style={{ color: "#6ab4dd" }}
-              href="/"
-              onClick={this.handleClickLogout}
-            >
+            <a className="logout" href="/" onClick={this.handleClickLogout}>
               Выход
             </a>
           </span>
